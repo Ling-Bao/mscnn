@@ -1,6 +1,6 @@
 # -*- coding:utf-8 -*-
 """
-@Function: Structure of MSCNN crowd counting
+@Function: MSCNN crowd counting model training
 @Source: Multi-scale Convolution Neural Networks for Crowd Counting
          https://arxiv.org/abs/1702.02359
 @Data set: https://pan.baidu.com/s/12EqB1XDyFBB0kyinMA7Pqw 密码: sags  --> Have some problems
@@ -39,6 +39,10 @@ initial_learning_rate = 1.0e-5
 
 
 def train():
+    """
+    在ShanghaiTech测试集上对mscnn模型训练
+    :return:
+    """
     with tf.Graph().as_default():
         # 读取文件目录txt
         dir_file = open(FLAGS.data_train_index)

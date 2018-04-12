@@ -238,7 +238,17 @@ def inference(images):
 
 def inference_bn(images):
     """
-    在MSCNN模型的cnn层后增加Batch Normal; 对输出的激活函数进行了改进relu(sigmoid(x))
+    在MSCNN模型的cnn层后增加Batch Normal; 对输出的激活函数进行了改进f(x)=relu(sigmoid(x))
+    $$sigmod(x)=\frac{1}{1+e^{-x}}$$
+    $$relu(x)=
+    \begin{equation}
+    \begin{cases}
+     x, & x \geq 0 \\
+    0, & x < 0
+    \end{cases}
+    \end{equation}$$
+    $$f(x)=relu(sigmod(x))$$
+
     :param images: 原始图像
     :return: 人群密度估计图像
     """
@@ -315,6 +325,12 @@ def inference_bn(images):
 
 
 def loss(predict, label):
+    """
+    计算损失
+    :param predict: mscnn估计密度图
+    :param label: ground truth crowd counting map
+    :return: L2 loss
+    """
     # L2 Loss
     l2_loss = tf.reduce_sum((predict - label) * (predict - label))
 
@@ -325,6 +341,11 @@ def loss(predict, label):
 
 
 def add_avg_loss(avg_loss):
+    """
+    计算平均损失
+    :param avg_loss:
+    :return:
+    """
     add_avg_loss_op = avg_loss * 1
     tf.summary.histogram('avg_loss', avg_loss)
 
@@ -332,6 +353,11 @@ def add_avg_loss(avg_loss):
 
 
 def _add_loss_summaries(total_loss):
+    """
+    增加损失概要信息
+    :param total_loss:
+    :return:
+    """
     loss_averages = tf.train.ExponentialMovingAverage(0.9, name='avg')
     losses = tf.get_collection('losses')
     loss_averages_op = loss_averages.apply(losses + [total_loss])
@@ -344,6 +370,13 @@ def _add_loss_summaries(total_loss):
 
 
 def train(total_loss, global_step, nums_per_train):
+    """
+    根据损失构建RMSProp优化算子
+    :param total_loss: 损失
+    :param global_step:
+    :param nums_per_train:
+    :return: RMSProp优化算子
+    """
     num_batches_per_epoch = nums_per_train / FLAGS.batch_size
     decay_steps = int(num_batches_per_epoch * mscnn_train.num_epochs_per_decay)
 

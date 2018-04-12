@@ -1,6 +1,6 @@
 # -*- coding:utf-8 -*-
 """
-@Function: Structure of MSCNN crowd counting
+@Function: MSCNN crowd counting model evaluation
 @Source: Multi-scale Convolution Neural Networks for Crowd Counting
          https://arxiv.org/abs/1702.02359
 @Data set: https://pan.baidu.com/s/12EqB1XDyFBB0kyinMA7Pqw 密码: sags  --> Have some problems
@@ -41,6 +41,10 @@ tf.app.flags.DEFINE_string('data_test_index', data_test_index, """测试集图�
 
 
 def evaluate():
+    """
+    在ShanghaiTech测试集上对mscnn模型评价
+    :return:
+    """
     # 构建图模型
     images = tf.placeholder("float")
     labels = tf.placeholder("float")
