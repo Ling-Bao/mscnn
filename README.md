@@ -7,11 +7,21 @@
 
 This is open source project for crowd counting. Implement with paper "Multi-scale Convolution Neural Networks for Crowd Counting" write by Zeng L, Xu X, Cai B, et al.  For more details, please refer to our [arXiv paper](https://arxiv.org/abs/1702.02359)
 
-![multi-scale block](doc/msb.png)
-![mscnn model](doc/mscnn_model.png)
-![mscnn_architecture](doc/mscnn_architecture.png)
-![result_display](doc/result_display.png)
-![result_table](doc/result_table.png)
+<p align="center">
+<img src="doc/msb.png" alt="multi-scale block" width="350px">
+</p>
+<p align="center">
+<img src="doc/mscnn_model.png" alt="mscnn_model" width="800px">
+</p>
+<p align="center">
+<img src="doc/mscnn_architecture.png" alt="mscnn_architecture" width="400px">
+</p>
+<p align="center">
+<img src="doc/result_display.png" alt="result_display" width="650px">
+</p>
+<p align="center">
+<img src="doc/result_table.png" alt="result_table" width="360px">
+</p>
 
 
 ### Contents
@@ -72,8 +82,9 @@ python mscnn_eval.py
 Add Batch Normal after each convolution layer
 
 2. Improving activation funtion for last layer to adapt crowd counting map estimation
-
-![formulation](doc/formulation.png)
+<p align="center">
+<img src="doc/formulation.png" alt="formulation" width="240px">
+</p>
 
 =======
 [![License](http://gplv3.fsf.org/gplv3-127x51.png)](LICENSE)
