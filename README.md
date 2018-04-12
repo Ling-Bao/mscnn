@@ -1,2 +1,2 @@
 # mscnn
-Implemente with mscnn model for crowd counting
+[![License](http://gplv3.fsf.org/gplv3-127x51.png)](LICENSE)
