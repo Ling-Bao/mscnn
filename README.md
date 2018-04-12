@@ -1,5 +1,7 @@
-<<<<<<< HEAD
+>>>>>>> HEAD
+
 # mscnn crowd counting model
+=======
 [![License](http://gplv3.fsf.org/gplv3-127x51.png)](LICENSE)
 ## Introduction
 
@@ -74,6 +76,5 @@ Add Batch Normal after each convolution layer
 ![formulation](doc/formulation.png)
 
 =======
-# mscnn
 [![License](http://gplv3.fsf.org/gplv3-127x51.png)](LICENSE)
->>>>>>> ca02dd524bb14cd6042372059aee9598fdcf3122
+>>>>>>> TAIL
