@@ -152,7 +152,7 @@ def multi_scale_block(in_con, in_dim, out_dim, is_bn=False):
         bias = tf.nn.bias_add(concat, biases)
 
         if is_bn:
-            bn = BatchNorm(name=scope.name)
+            bn = BatchNorm()
             bias = bn(bias)
 
         msb = tf.nn.relu(bias)
@@ -310,7 +310,7 @@ def inference_bn(images):
         biases = _variable_on_cpu('biases', [1], tf.constant_initializer(0))
         bias = tf.nn.bias_add(con, biases)
 
-        bn = BatchNorm(name=scope.name)
+        bn = BatchNorm()
         bias = bn(bias)
 
         con_out = tf.nn.relu(tf.nn.sigmoid(bias))

@@ -14,13 +14,13 @@ This is open source project for crowd counting. Implement with paper "Multi-scal
 <img src="doc/mscnn_model.png" alt="mscnn_model" width="800px">
 </p>
 <p align="center">
-<img src="doc/mscnn_architecture.png" alt="mscnn_architecture" width="400px">
+<img src="doc/mscnn_architecture.png" alt="mscnn_architecture" width="360px">
 </p>
 <p align="center">
 <img src="doc/result_display.png" alt="result_display" width="650px">
 </p>
 <p align="center">
-<img src="doc/result_table.png" alt="result_table" width="360px">
+<img src="doc/result_table.png" alt="result_table" width="320px">
 </p>
 
 
