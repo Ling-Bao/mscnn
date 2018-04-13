@@ -5,7 +5,7 @@
 [![License](http://gplv3.fsf.org/gplv3-127x51.png)](LICENSE)
 ## Introduction
 
-This is open source project for crowd counting. Implement with paper "Multi-scale Convolution Neural Networks for Crowd Counting" write by Zeng L, Xu X, Cai B, et al.  For more details, please refer to our [arXiv paper](https://arxiv.org/abs/1702.02359)
+This is open source project for crowd counting. Implement with paper "Multi-scale Convolution Neural Networks for Crowd Counting" write by Zeng L, Xu X, Cai B, et al.  For more details, please refer to [arXiv paper](https://arxiv.org/abs/1702.02359)
 
 <p align="center">
 <img src="doc/msb.png" alt="multi-scale block" width="350px">
