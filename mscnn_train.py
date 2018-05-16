@@ -35,7 +35,7 @@ FLAGS = tf.app.flags.FLAGS
 # 模型训练参数
 num_epochs_per_decay = 20
 learning_rate_per_decay = 0.9
-initial_learning_rate = 1.0e-5
+initial_learning_rate = 1.0e-1
 
 
 def train():
@@ -55,7 +55,7 @@ def train():
         # 用于训练数据的place_holder
         image = tf.placeholder("float")
         label = tf.placeholder("float")
-        avg_loss1 = tf.placeholder("float")
+        avg_loss = tf.placeholder("float")
 
         # 模型训练相关的初始化工作
         # predicts = mscnn.inference(image)  # 构建mscnn模型
@@ -76,53 +76,59 @@ def train():
             print('Not found checkpoint file')
 
         summary_op = tf.summary.merge_all()  # 概要汇总
-        add_avg_loss_op = mscnn.add_avg_loss(avg_loss1)  # 添加平均loss的op
+        add_avg_loss_op = mscnn.add_avg_loss(avg_loss)  # 添加平均loss的op
         summary_writer = tf.summary.FileWriter(FLAGS.train_log, graph_def=sess.graph_def)  # 创建一个概要器
 
         # 参数设置
         steps = 100000
-        avg_loss = 0
+        avg_loss_1 = 0
 
         for step in xrange(steps):
-            # 批次数
-            index = step % nums_train
-            tmp1 = None
-            while step % nums_train == 0:
-                tmp = range(nums_train)
-                tmp1 = random.sample(tmp, nums_train)
-                break
+            if step < nums_train * 10:
+                # 开始10次迭代轮循按样本次序训练
+                num_batch = [divmod(step, nums_train)[1] + i for i in range(FLAGS.batch_size)]
+            else:
+                # 随机选batch_size大小的样本
+                num_batch = random.sample(range(nums_train), nums_train)[0:FLAGS.batch_size]
 
-            num_batch = tmp1[index]
-            file_name = dir_name[num_batch]
-            im_name, gt_name = file_name.split(' ')
-            gt_name = gt_name.split('\n')[0]  # 分离出最后一个回车符
+            xs, ys = [], []
+            for index in num_batch:
+                # 获取路径
+                file_name = dir_name[index]
+                im_name, gt_name = file_name.split(' ')
+                gt_name = gt_name.split('\n')[0]
 
-            # 训练数据(图片)
-            batch_xs = cv2.imread(FLAGS.data_train_im + im_name)
-            batch_xs = np.array(batch_xs, dtype=np.float32)
-            batch_xs = batch_xs.reshape(1, len(batch_xs), -1, 3)
+                # 训练数据(图片)
+                batch_xs = cv2.imread(FLAGS.data_train_im + im_name)
+                batch_xs = np.array(batch_xs, dtype=np.float32)
 
-            # 训练数据(密度图)
-            batch_ys = np.array(np.load(FLAGS.data_train_gt + gt_name))
-            batch_ys = np.array(batch_ys, dtype=np.float32)
-            batch_ys = batch_ys.reshape(1, len(batch_ys), -1)
+                # 训练数据(密度图)
+                batch_ys = np.array(np.load(FLAGS.data_train_gt + gt_name))
+                batch_ys = np.array(batch_ys, dtype=np.float32)
+                batch_ys = batch_ys.reshape([batch_ys.shape[0], batch_ys.shape[1], -1])
+
+                xs.append(batch_xs)
+                ys.append(batch_ys)
+
+            np_xs = np.array(xs)
+            np_ys = np.array(ys)
 
             # 获取损失值以及预测密度图
-            _, loss_value = sess.run([train_op, loss], feed_dict={image: batch_xs, label: batch_ys})
-            output = sess.run(predicts, feed_dict={image: batch_xs})
-            avg_loss += loss_value
+            _, loss_value = sess.run([train_op, loss], feed_dict={image: np_xs, label: np_ys})
+            output = sess.run(predicts, feed_dict={image: np_xs})
+            avg_loss_1 += loss_value
 
             # 保存概述数据
             if step % 100 == 0:
-                summary_str = sess.run(summary_op, feed_dict={image: batch_xs, label: batch_ys,
-                                                              avg_loss1: avg_loss / 100})
+                summary_str = sess.run(summary_op, feed_dict={image: np_xs, label: np_ys,
+                                                              avg_loss: avg_loss_1 / 100})
                 summary_writer.add_summary(summary_str, step)
-                avg_loss = 0
+                avg_loss_1 = 0
 
-            if step % 10 == 0:
+            if step % 1 == 0:
                 print("avg_loss:%.7f\t counting:%.7f\t predict:%.7f" % \
-                      (loss_value, sum(sum(sum(batch_ys))), sum(sum(sum(output)))))
-                sess.run(add_avg_loss_op, feed_dict={avg_loss1: loss_value})
+                      (loss_value, sum(sum(sum(np_ys))), sum(sum(sum(output)))))
+                sess.run(add_avg_loss_op, feed_dict={avg_loss: loss_value})
 
             # 保存模型参数
             if step % 2000 == 0:

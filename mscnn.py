@@ -229,7 +229,7 @@ def inference(images):
         _activation_summary(con_out)
 
     # 删除第四维度channel, channel=1
-    image_out = tf.squeeze(con_out, 3)
+    image_out = con_out
 
     tf.summary.image("con_img", image_out)
 
@@ -317,7 +317,7 @@ def inference_bn(images):
         _activation_summary(con_out)
 
     # 删除第四维度channel, channel=1
-    image_out = tf.squeeze(con_out, 3)
+    image_out = con_out
 
     tf.summary.image("con_img", image_out)
 
