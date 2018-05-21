@@ -332,6 +332,7 @@ def loss(predict, label):
     :return: L2 loss
     """
     # L2 Loss
+    predict = tf.squeeze(predict, 3)
     l2_loss = tf.reduce_sum((predict - label) * (predict - label))
 
     # 增加概要
