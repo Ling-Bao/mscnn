@@ -79,12 +79,4 @@ python mscnn_eval.py
 
 ### Details
 1. Improving model structure. Add Batch Normal after each convolution layer.
-
-2. Improving activation funtion for last layer to adapt crowd counting map estimation.
-<p align="center">
-<img src="doc/formulation.png" alt="formulation" width="240px">
-</p>
-
-=======
-[![License](http://gplv3.fsf.org/gplv3-127x51.png)](LICENSE)
 >>>>>>> TAIL
